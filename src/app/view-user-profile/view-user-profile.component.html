@@ -1,1 +1,9 @@
-<p>view-user-profile works!</p>
+<div class="p-4">
+  <h2 class="text-xl font-bold mb-4">User Profiles</h2>
+  <ul class="space-y-4">
+    <li *ngFor="let user of users" class="border rounded p-4">
+      <p><strong>Name:</strong> {{ user.name }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+    </li>
+  </ul>
+</div>

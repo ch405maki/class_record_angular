@@ -12,17 +12,35 @@ import { ApiService } from '../services/api.service';
 })
 export class RegistrationComponent {
   user = {
+    studentID: '', // Add studentID
     name: '',
     email: '',
     password: '',
+    courses: [] as string[], // Initialize courses as an empty array
   };
 
-  // Inject the ApiService
+  newCourse = ''; // Input for new course
+
   constructor(private apiService: ApiService) {}
 
-  // Handle form submission
+  // Add a course to the user's course list
+  addCourse() {
+    if (this.newCourse && !this.user.courses.includes(this.newCourse)) {
+      this.user.courses.push(this.newCourse);
+      this.newCourse = ''; // Clear the input after adding
+    }
+  }
+
+  // Remove a course from the user's course list
+  removeCourse(course: string) {
+    const index = this.user.courses.indexOf(course);
+    if (index !== -1) {
+      this.user.courses.splice(index, 1);
+    }
+  }
+
   submitForm() {
-    if (this.user.name && this.user.email && this.user.password) {
+    if (this.user.studentID && this.user.name && this.user.email && this.user.password) {
       this.apiService.addUser(this.user).subscribe({
         next: (response) => {
           console.log('User added successfully:', response);
@@ -39,8 +57,8 @@ export class RegistrationComponent {
     }
   }
 
-  // Reset the form
   resetForm() {
-    this.user = { name: '', email: '', password: '' };
+    this.user = { studentID: '', name: '', email: '', password: '', courses: [] };
+    this.newCourse = ''; // Clear the course input
   }
 }

@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
@@ -9,13 +8,18 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './class-record.component.html',
-  styleUrl: './class-record.component.css'
+  styleUrls: ['./class-record.component.css']
 })
 export class ClassRecordComponent {
-  users: any[] = [];
-  isEditModalOpen = false;  // Modal state
-  selectedUser: any = {};   // To store the selected user's data for editing
-  newCourse = '';           // For adding new courses
+  users: any[] = [];              // All users fetched from the API
+  paginatedUsers: any[] = [];     // Users for the current page
+  currentPage = 1;                // Current page number
+  pageSize = 5;                   // Number of users per page
+  totalPages = 0;                 // Total number of pages
+  isEditModalOpen = false;        // Modal state for editing
+  isViewModalOpen = false;        // Modal state for viewing
+  selectedUser: any = {};         // To store the selected user's data
+  newCourse = '';                 // For adding new courses
 
   constructor(private apiService: ApiService) {
     this.fetchUsers();
@@ -25,14 +29,55 @@ export class ClassRecordComponent {
   fetchUsers() {
     this.apiService.getUsers().subscribe({
       next: (data) => {
-        // Ensure courses is always an array (if it's a string, split it into an array)
         this.users = data.map(user => ({
           ...user,
           courses: Array.isArray(user.courses) ? user.courses : user.courses.split(',')  // Convert string to array if needed
         }));
+        this.calculatePagination();
       },
       error: (err) => console.error('Error fetching users:', err),
     });
+  }
+
+  // Calculate pagination details
+  calculatePagination() {
+    this.totalPages = Math.ceil(this.users.length / this.pageSize);
+    this.updatePaginatedUsers();
+  }
+
+  // Update the list of users to show on the current page
+  updatePaginatedUsers() {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedUsers = this.users.slice(startIndex, endIndex);
+  }
+
+  // Go to the next page
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePaginatedUsers();
+    }
+  }
+
+  // Go to the previous page
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePaginatedUsers();
+    }
+  }
+
+  // Open the view modal and set the selected user for viewing
+  openViewModal(user: any) {
+    this.selectedUser = { ...user };  // Copy user data to avoid direct mutation
+    this.isViewModalOpen = true;
+  }
+
+  // Close the view modal
+  closeViewModal() {
+    this.isViewModalOpen = false;
+    this.selectedUser = {};  // Clear selected user data
   }
 
   // Open the edit modal and set the selected user for editing
@@ -73,12 +118,11 @@ export class ClassRecordComponent {
       this.selectedUser.courses = this.selectedUser.courses.split(',');
     }
   
-    // Now, since `selectedUser` contains `id`, you can use it in the request
     this.apiService.updateUser(this.selectedUser).subscribe({
       next: () => {
         alert('User updated successfully!');
         this.closeEditModal();
-        this.fetchUsers();  // Refresh the list of users
+        this.fetchUsers();
       },
       error: (err) => {
         console.error('Error updating user:', err);
@@ -86,5 +130,4 @@ export class ClassRecordComponent {
       }
     });
   }
-  
 }

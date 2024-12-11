@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of users" class="bg-white">
+        <tr *ngFor="let user of paginatedUsers" class="bg-white">
           <td class="border px-4 py-2">{{ user.studentID }}</td>
           <td class="border px-4 py-2">{{ user.name }}</td>
           <td class="border px-4 py-2">{{ user.email }}</td>
@@ -23,11 +23,31 @@
             <p *ngIf="!user.courses || user.courses.length === 0">No courses enrolled</p>
           </td>
           <td class="border px-4 py-2">
-            <button (click)="openEditModal(user)" class="bg-blue-500 text-white px-4 py-2 rounded">Edit</button>
+            <button (click)="openViewModal(user)" class="bg-green-500 text-white px-4 py-2 rounded">View</button>
+            <button (click)="openEditModal(user)" class="bg-blue-500 ml-2 text-white px-4 py-2 rounded">Edit</button>
           </td>
         </tr>
       </tbody>
     </table>
+  
+    <!-- Pagination Controls -->
+    <div class="flex justify-between items-center mt-4">
+      <button 
+        (click)="previousPage()" 
+        [disabled]="currentPage === 1" 
+        class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 disabled:opacity-50"
+      >
+        Previous
+      </button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button 
+        (click)="nextPage()" 
+        [disabled]="currentPage === totalPages" 
+        class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 disabled:opacity-50"
+      >
+        Next
+      </button>
+    </div>
   </div>
   
   <!-- Edit User Modal -->
@@ -70,6 +90,24 @@
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded w-full">Save Changes</button>
         <button type="button" (click)="closeEditModal()" class="bg-red-500 text-white px-4 py-2 rounded mt-2 w-full">Cancel</button>
       </form>
+    </div>
+  </div>
+
+  <!-- View User Modal -->
+<div *ngIf="isViewModalOpen" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white p-6 rounded shadow-lg w-96">
+      <h3 class="text-xl font-bold mb-4">View User</h3>
+      <div class="mb-4">
+        <p><strong>ID Number:</strong> {{ selectedUser.studentID }}</p>
+        <p><strong>Name:</strong> {{ selectedUser.name }}</p>
+        <p><strong>Email:</strong> {{ selectedUser.email }}</p>
+        <p><strong>Courses:</strong></p>
+        <ul *ngIf="selectedUser.courses && selectedUser.courses.length > 0">
+          <li *ngFor="let course of selectedUser.courses">{{ course }}</li>
+        </ul>
+        <p *ngIf="!selectedUser.courses || selectedUser.courses.length === 0">No courses enrolled</p>
+      </div>
+      <button (click)="closeViewModal()" class="bg-red-500 text-white px-4 py-2 rounded w-full">Close</button>
     </div>
   </div>
   

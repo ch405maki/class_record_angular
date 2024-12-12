@@ -1,6 +1,6 @@
 <!-- User Profiles Table -->
 <div class="p-4">
-    <h2 class="text-xl font-bold mb-4">Records</h2>
+    <h2 class="text-xl font-bold mb-4">Class Records</h2>
     <table class="min-w-full table-auto border-collapse">
       <thead>
         <tr class="bg-gray-100">
@@ -8,7 +8,7 @@
           <th class="border px-4 py-2 text-left">Name</th>
           <th class="border px-4 py-2 text-left">Email</th>
           <th class="border px-4 py-2 text-left">Courses</th>
-          <th class="border px-4 py-2 text-left">Actions</th>
+          <th class="border px-4 py-2 text-center">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -23,15 +23,17 @@
             <p *ngIf="!user.courses || user.courses.length === 0">No courses enrolled</p>
           </td>
           <td class="border px-4 py-2">
-            <button (click)="openViewModal(user)" class="bg-green-500 text-white px-4 py-2 rounded">View</button>
-            <button (click)="openEditModal(user)" class="bg-blue-500 ml-2 text-white px-4 py-2 rounded">Edit</button>
+            <div class="flex items-center gap-1 justify-center">
+            <button (click)="openViewModal(user)" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">View</button>
+            <button (click)="openEditModal(user)" class="bg-blue-500 hover:bg-blue-600 ml-2 text-white px-4 py-2 rounded">Edit</button>
+            </div>
           </td>
         </tr>
       </tbody>
     </table>
   
     <!-- Pagination Controls -->
-    <div class="flex justify-between items-center mt-4">
+    <div class="flex justify-end items-center mt-4">
       <button 
         (click)="previousPage()" 
         [disabled]="currentPage === 1" 
@@ -39,16 +41,15 @@
       >
         Previous
       </button>
-      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <span class="ml-2">Page {{ currentPage }} of {{ totalPages }}</span>
       <button 
         (click)="nextPage()" 
         [disabled]="currentPage === totalPages" 
-        class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 disabled:opacity-50"
+        class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 disabled:opacity-50 ml-2"
       >
         Next
       </button>
     </div>
-  </div>
   
   <!-- Edit User Modal -->
   <div *ngIf="isEditModalOpen" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">

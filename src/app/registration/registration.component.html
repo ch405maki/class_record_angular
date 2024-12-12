@@ -1,82 +1,107 @@
-<form (ngSubmit)="submitForm()">
-  <!-- Student ID field -->
-  <div>
-    <label for="studentID" class="block text-gray-700">Student ID</label>
-    <input
-      type="text"
-      id="studentID"
-      [(ngModel)]="user.studentID"
-      name="studentID"
-      class="border rounded w-full p-2"
-      required
-    />
+<div class="max-w-7xl mx-auto flex justify-center items-center p-4 bg-white ">
+  <div class="w-1/2 hidden md:block">
+    <img src="register.jpg" alt="Registration Image" class="rounded">
   </div>
-
-  <!-- Name, email, and password fields -->
-  <div>
-    <label for="name" class="block text-gray-700">Name</label>
-    <input
-      type="text"
-      id="name"
-      [(ngModel)]="user.name"
-      name="name"
-      class="border rounded w-full p-2"
-      required
-    />
-  </div>
-
-  <div>
-    <label for="email" class="block text-gray-700">Email</label>
-    <input
-      type="email"
-      id="email"
-      [(ngModel)]="user.email"
-      name="email"
-      class="border rounded w-full p-2"
-      required
-    />
-  </div>
-
-  <div>
-    <label for="password" class="block text-gray-700">Password</label>
-    <input
-      type="password"
-      id="password"
-      [(ngModel)]="user.password"
-      name="password"
-      class="border rounded w-full p-2"
-      required
-    />
-  </div>
-
-  <!-- Course input -->
-  <div>
-    <label for="courses" class="block text-gray-700">Courses</label>
-    <input
-      type="text"
-      id="newCourse"
-      [(ngModel)]="newCourse"
-      name="newCourse"
-      class="border rounded w-full p-2"
-      placeholder="Enter course name"
-    />
-    <button type="button" (click)="addCourse()" class="mt-2 p-2 bg-blue-500 text-white rounded">
-      Add Course
-    </button>
-  </div>
-
-  <!-- Display courses -->
-  <div *ngIf="user.courses.length > 0">
-    <h3 class="mt-4">Courses:</h3>
-    <ul>
-      <li *ngFor="let course of user.courses">
-        {{ course }}
-        <button type="button" (click)="removeCourse(course)" class="ml-2 text-red-500">
-          Remove
+  
+  <div class="w-full md:w-1/2 md:pl-8 p-8">
+    <form (ngSubmit)="submitForm()">
+      
+      <!-- Student ID field -->
+      <div class="mb-4">
+        <label for="studentID" class="block text-gray-700 font-bold">Student ID</label>
+        <input 
+          type="text" 
+          id="studentID" 
+          [(ngModel)]="user.studentID" 
+          name="studentID" 
+          class="border rounded w-full p-2" 
+          placeholder="Enter Student ID" 
+          required
+        />
+      </div>
+      
+      <!-- Name, email, and password fields -->
+      <div class="mb-4">
+        <label for="name" class="block text-gray-700 font-bold">Name</label>
+        <input 
+          type="text" 
+          id="name" 
+          [(ngModel)]="user.name" 
+          name="name" 
+          class="border rounded w-full p-2" 
+          placeholder="Full Name" 
+          required
+        />
+      </div>
+      
+      <div class="mb-4">
+        <label for="email" class="block text-gray-700 font-bold">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          [(ngModel)]="user.email" 
+          name="email" 
+          class="border rounded w-full p-2" 
+          placeholder="example@email.com" 
+          required
+        />
+      </div>
+      
+      <div class="mb-4">
+        <label for="password" class="block text-gray-700 font-bold">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          [(ngModel)]="user.password" 
+          name="password" 
+          class="border rounded w-full p-2" 
+          placeholder="Create Password" 
+          required
+        />
+      </div>
+      
+      <!-- Course selection -->
+      <div class="mb-4">
+        <label for="courses" class="block text-gray-700 font-bold">Courses</label>
+        <select 
+          id="newCourse" 
+          [(ngModel)]="selectedCourse" 
+          name="newCourse" 
+          class="border rounded w-full p-2"
+        >
+          <option value="">Select Course</option>
+          <option *ngFor="let course of availableCourses" [value]="course">{{ course }}</option>
+        </select>
+        <button 
+          type="button" 
+          (click)="addCourse()" 
+          class="mt-2 p-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+        >
+          Add Course
         </button>
-      </li>
-    </ul>
+      </div>
+      
+      <!-- Display courses -->
+      <div *ngIf="user.courses.length > 0" class="mb-4">
+        <h3 class="mt-4 font-bold">Courses:</h3>
+        <ul>
+          <li *ngFor="let course of user.courses" class="flex items-center">
+            {{ course }}
+            <button 
+              type="button" 
+              (click)="removeCourse(course)" 
+              class="ml-2 text-red-500 hover:text-red-700"
+            >
+              Remove
+            </button>
+          </li>
+        </ul>
+      </div>
+      <button  
+        type="submit" 
+        class="mt-4 w-full bg-gray-500 text-white rounded hover:bg-gray-700 font-medium py-2 px-4 rounded-lg shadow transition">
+        Register
+      </button>
+    </form>
   </div>
-
-  <button type="submit" class="mt-4 p-2 bg-green-500 text-white rounded">Register</button>
-</form>
+</div>

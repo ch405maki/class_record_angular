@@ -12,26 +12,32 @@ import { ApiService } from '../services/api.service';
 })
 export class RegistrationComponent {
   user = {
-    studentID: '', // Add studentID
+    studentID: '',
     name: '',
     email: '',
     password: '',
-    courses: [] as string[], // Initialize courses as an empty array
+    courses: [] as string[],
   };
 
-  newCourse = ''; // Input for new course
+  availableCourses = [
+    'Mathematics',
+    'Science',
+    'English',
+    'History',
+    'Computer Science',
+  ];
+
+  selectedCourse?: string;
 
   constructor(private apiService: ApiService) {}
 
-  // Add a course to the user's course list
   addCourse() {
-    if (this.newCourse && !this.user.courses.includes(this.newCourse)) {
-      this.user.courses.push(this.newCourse);
-      this.newCourse = ''; // Clear the input after adding
+    if (this.selectedCourse && !this.user.courses.includes(this.selectedCourse)) {
+      this.user.courses.push(this.selectedCourse);
+      this.selectedCourse = '';
     }
   }
 
-  // Remove a course from the user's course list
   removeCourse(course: string) {
     const index = this.user.courses.indexOf(course);
     if (index !== -1) {
@@ -59,6 +65,6 @@ export class RegistrationComponent {
 
   resetForm() {
     this.user = { studentID: '', name: '', email: '', password: '', courses: [] };
-    this.newCourse = ''; // Clear the course input
+    this.selectedCourse = '';
   }
 }

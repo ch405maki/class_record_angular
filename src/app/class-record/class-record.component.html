@@ -54,7 +54,7 @@
   <!-- Edit User Modal -->
   <div *ngIf="isEditModalOpen" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
     <div class="bg-white p-6 rounded shadow-lg w-96">
-      <h3 class="text-xl font-bold mb-4">Edit User</h3>
+      <h3 class="text-xl font-bold mb-4">Edit Record</h3>
       <form (ngSubmit)="submitEditForm()">
         <div class="mb-4">
           <label for="name" class="block text-gray-700">Name</label>
@@ -97,7 +97,7 @@
   <!-- View User Modal -->
 <div *ngIf="isViewModalOpen" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
     <div class="bg-white p-6 rounded shadow-lg w-96">
-      <h3 class="text-xl font-bold mb-4">View User</h3>
+      <h3 class="text-xl font-bold mb-4">View Record</h3>
       <div class="mb-4">
         <p><strong>ID Number:</strong> {{ selectedUser.studentID }}</p>
         <p><strong>Name:</strong> {{ selectedUser.name }}</p>

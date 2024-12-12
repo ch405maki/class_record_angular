@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-registration',
@@ -50,16 +51,16 @@ export class RegistrationComponent {
       this.apiService.addUser(this.user).subscribe({
         next: (response) => {
           console.log('User added successfully:', response);
-          alert('Registration successful!');
+          Swal.fire('Registration successful!', '', 'success');
           this.resetForm();
         },
         error: (error) => {
           console.error('Error adding user:', error);
-          alert('Registration failed. Please try again.');
+          Swal.fire('Registration failed', 'Please try again.', 'error');
         },
       });
     } else {
-      alert('All fields are required!');
+      Swal.fire('Error', 'All fields are required!', 'warning');
     }
   }
 

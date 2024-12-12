@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-class-record',
@@ -120,13 +121,13 @@ export class ClassRecordComponent {
   
     this.apiService.updateUser(this.selectedUser).subscribe({
       next: () => {
-        alert('User updated successfully!');
+        Swal.fire('User updated successfully!', '', 'success');
         this.closeEditModal();
         this.fetchUsers();
       },
       error: (err) => {
         console.error('Error updating user:', err);
-        alert('Failed to update user.');
+        Swal.fire('Failed to update user.', 'Please try again.', 'error');
       }
     });
   }
